@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7f6">
+    <title>Finora | Personal Finance</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="#overview" class="brand">
+                <span class="brand-icon">F</span>
+                <span>finora<span class="brand-dot">.</span></span>
+            </a>
+
+            <div class="sidebar-label">MENU</div>
+
+            <nav class="navigation">
+                <a href="#overview" class="nav-item active">
+                    <span>⌂</span> Overview
+                </a>
+                <a href="#analytics" class="nav-item">
+                    <span>▥</span> Analytics
+                </a>
+                <a href="#transactions" class="nav-item">
+                    <span>⇄</span> Transactions
+                </a>
+                <a href="#add-transaction" class="nav-item">
+                    <span>＋</span> Add Transaction
+                </a>
+                <a href="#smart-finance" class="nav-item">
+                    <span>✦</span> Smart Finance
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="help-card">
+                    <div class="help-icon">✦</div>
+                    <strong>Manage money smarter</strong>
+                    <p>Track your spending and build better financial habits.</p>
+                    <a href="#smart-finance">Explore insights →</a>
+                </div>
+
+                <button id="theme-toggle" class="theme-toggle" type="button">
+                    <span id="theme-icon">☾</span>
+                    <span id="theme-label">Dark mode</span>
+                </button>
+
+                <div class="sidebar-footer">
+                    <span class="avatar">F</span>
+                    <div>
+                        <strong>My Finora</strong>
+                        <small>Personal account</small>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="overview">
+
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR FINANCIAL SPACE</p>
+                    <h1>Overview</h1>
+                    <p class="page-description">
+                        Welcome back! Here's your financial summary.
+                    </p>
+                </div>
+
+                <div class="topbar-actions">
+                    <span class="status-dot"></span>
+                    <span class="account-label">My Dashboard</span>
+                    <span class="avatar top-avatar">F</span>
+                </div>
+            </header>
+
+            <section class="summary-grid">
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Total Balance</span>
+                        <span class="summary-icon balance-icon">◈</span>
+                    </div>
+                    <h2 id="total-balance">SAR 0.00</h2>
+                    <p class="summary-note">Income minus expenses</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Total Income</span>
+                        <span class="summary-icon income-icon">↗</span>
+                    </div>
+                    <h2 id="total-income">SAR 0.00</h2>
+                    <p class="summary-note">All recorded income</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Total Expenses</span>
+                        <span class="summary-icon expense-icon">↘</span>
+                    </div>
+                    <h2 id="total-expenses">SAR 0.00</h2>
+                    <p class="summary-note">All recorded expenses</p>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-top">
+                        <span>Savings Rate</span>
+                        <span class="summary-icon savings-icon">✧</span>
+                    </div>
+                    <h2 id="savings-rate">0%</h2>
+                    <p class="summary-note">Based on total income</p>
+                </article>
+            </section>
+
+            <section class="dashboard-grid" id="analytics">
+
+                <article class="panel chart-panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Expense Analytics</h2>
+                            <p>See where your money goes</p>
+                        </div>
+                        <span class="panel-tag">By category</span>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="expense-chart"></canvas>
+                        <div id="chart-empty" class="chart-empty">
+                            <span>◌</span>
+                            <p>Add expenses to see your chart.</p>
+                        </div>
+                    </div>
+
+                    <div id="chart-legend" class="chart-legend"></div>
+                </article>
+
+                <article class="panel quick-entry-panel" id="add-transaction">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Quick Entry</h2>
+                            <p>Record your money activity</p>
+                        </div>
+                        <span class="quick-entry-icon">＋</span>
+                    </div>
+
+                    <form id="transaction-form">
+                        <div class="form-group">
+                            <label for="transaction-title">Transaction name</label>
+                            <input
+                                type="text"
+                                id="transaction-title"
+                                placeholder="e.g. Grocery shopping"
+                                maxlength="80"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="transaction-amount">Amount (SAR)</label>
+                                <input
+                                    type="number"
+                                    id="transaction-amount"
+                                    placeholder="0.00"
+                                    min="0.01"
+                                    max="1000000000"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="transaction-type">Type</label>
+                                <select id="transaction-type" required>
+                                    <option value="expense">Expense</option>
+                                    <option value="income">Income</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="transaction-category">Category</label>
+                                <select id="transaction-category" required>
+                                    <option value="Food">Food</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Bills">Bills</option>
+                                    <option value="Health">Health</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Salary">Salary</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="transaction-date">Date</label>
+                                <input
+                                    type="date"
+                                    id="transaction-date"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button class="submit-button" type="submit">
+                            <span>＋</span> Add Transaction
+                        </button>
+                    </form>
+                </article>
+            </section>
+
+            <section class="smart-finance-grid" id="smart-finance">
+
+                <article class="panel budget-panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Monthly Budget</h2>
+                            <p>Manage your monthly spending limit</p>
+                        </div>
+                        <span class="smart-finance-icon">◎</span>
+                    </div>
+
+                    <form id="budget-form">
+                        <div class="form-group budget-form-group">
+                            <label for="budget-amount">
+                                Monthly budget (SAR)
+                            </label>
+
+                            <div class="budget-input-row">
+                                <input
+                                    id="budget-amount"
+                                    type="number"
+                                    min="0.01"
+                                    max="1000000000"
+                                    step="0.01"
+                                    placeholder="e.g. 3000"
+                                    required
+                                >
+
+                                <button id="save-budget" type="submit"
+                                    class="submit-button">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="budget-stats">
+                        <div>
+                            <span>Spent this month</span>
+                            <strong id="budget-spent">SAR 0.00</strong>
+                        </div>
+
+                        <div>
+                            <span>Budget remaining</span>
+                            <strong id="budget-remaining">—</strong>
+                        </div>
+                    </div>
+
+                    <div
+                        class="budget-progress-track"
+                        role="progressbar"
+                        aria-label="Monthly budget usage"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0"
+                        id="budget-progress-track"
+                    >
+                        <div id="budget-progress"
+                            class="budget-progress-fill"></div>
+                    </div>
+
+                    <p id="budget-status" class="budget-status"
+                        aria-live="polite">
+                        Set a budget to start tracking your spending.
+                    </p>
+                </article>
+
+                <article class="panel ai-panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Finora Smart Insights</h2>
+                            <p>Suggestions based on your financial activity</p>
+                        </div>
+                        <span class="smart-finance-icon">✦</span>
+                    </div>
+
+                    <div id="ai-advice-list" class="ai-advice-list">
+                        <div class="ai-loading">
+                            Your financial insights will appear here.
+                        </div>
+                    </div>
+
+                    <p class="ai-disclaimer">
+                        Insights are generated locally using predefined rules.
+                        They are educational suggestions, not professional
+                        financial advice.
+                    </p>
+                </article>
+            </section>
+
+            <section class="panel transactions-panel" id="transactions">
+                <div class="section-heading transactions-heading">
+                    <div>
+                        <h2>Recent Transactions</h2>
+                        <p>Review your recorded activity</p>
+                    </div>
+
+                    <div class="transaction-actions">
+                        <select id="transaction-filter" aria-label="Filter transactions">
+                            <option value="all">All transactions</option>
+                            <option value="income">Income only</option>
+                            <option value="expense">Expenses only</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Transaction</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="transactions-body"></tbody>
+                    </table>
+
+                    <div id="transactions-empty" class="transactions-empty">
+                        <span>⇄</span>
+                        <h3>No transactions yet</h3>
+                        <p>Add your first transaction to get started.</p>
+                        <a href="#add-transaction">Add a transaction →</a>
+                    </div>
+                </div>
+
+                <div class="table-footer">
+                    <span id="transaction-count">0 transactions</span>
+                    <button id="clear-transactions" class="text-button"
+                        type="button">
+                        Clear all
+                    </button>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                <span>© 2026 Finora</span>
+                <span>Made for smarter money management <span class="footer-heart">♥</span></span>
+            </footer>
+        </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
